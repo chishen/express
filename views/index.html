@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="./stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="./stylesheets/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./stylesheets/index.css">
+</head>
+<body ng-app="expressApp" ng-controller="expressCtrl" ng-click="close($event)">
+<div class="left">
+    <div>
+        <span class="title">品种:</span>
+        <button id="type" class="select_type" ng-class="{'all': !config.type_value_string}"
+                ng-bind="config.type_value_string?config.type_value_string:'默认所有品种'"
+                ng-click="config.type_list_show = !config.type_list_show;config.level_list_show = false;config.city_list_show = false;"></button>
+        <ul class="list_type ng-cloak" ng-cloak ng-show="config.type_list_show">
+            <li ng-repeat="x in config.type_list" ng-class="{'active':x.isChecked}" ng-click="x.isChecked = !x.isChecked;change('type', x.name)">
+                <span ng-bind="x.name"></span>
+                <span ng-show="x.isChecked" class="glyphicon glyphicon-ok" aria-hidden="true"></span></li>
+        </ul>
+        <span class="title">品级:</span>
+        <button id="level" class="select_type" ng-class="{'all': !config.level_value_string}"
+                ng-bind="config.level_value_string?config.level_value_string:'默认所有品级'"
+                ng-click="config.level_list_show = !config.level_list_show;config.type_list_show = false;config.city_list_show = false;"></button>
+        <ul class="list_type ng-cloak" ng-cloak ng-show="config.level_list_show">
+            <li ng-repeat="x in config.level_list" ng-class="{'active':x.isChecked}" ng-click="x.isChecked = !x.isChecked;change('level', x.name)">
+                <span ng-bind="x.name"></span>
+                <span ng-show="x.isChecked" class="glyphicon glyphicon-ok" aria-hidden="true"></span></li>
+        </ul>
+        <span class="title">城市:</span>
+        <button id="city" class="select_type" ng-class="{'all': !config.city_value_string}"
+                ng-bind="config.city_value_string?config.city_value_string:'默认所有城市'"
+                ng-click="config.city_list_show = !config.city_list_show;config.type_list_show = false;config.level_list_show = false;"></button>
+        <ul class="list_type ng-cloak" ng-cloak ng-show="config.city_list_show">
+            <li ng-repeat="x in config.city_list" ng-class="{'active':x.isChecked}" ng-click="x.isChecked = !x.isChecked;change('city', x.name)">
+                <span ng-bind="x.name"></span>
+                <span ng-show="x.isChecked" class="glyphicon glyphicon-ok" aria-hidden="true"></span></li>
+        </ul>
+        <div style="margin-top: 20px;">
+            <div class="jc_checkbox"><input id="saleIn" type="checkbox" ng-change="change('saleIn')"
+                                            ng-model="config.saleIn"><label for="saleIn"></label></div>
+            <label for="saleIn">只显示在售</label>
+        </div>
+        <div style="margin-top: 10px;">
+            <div class="jc_checkbox"><input id="isNew" type="checkbox" ng-change="change('isNew')"
+                                            ng-model="config.isNew"><label for="isNew"></label></div>
+            <label for="isNew">只显示最新</label>
+        </div>
+        <div style="margin-top: 10px;">
+            <div class="jc_checkbox"><input id="champion" type="checkbox" ng-change="change('champion')"
+                                            ng-model="config.champion"><label for="champion"></label></div>
+            <label for="champion">只显示月销冠军</label>
+        </div>
+        <div style="margin-top: 10px;">
+            <div class="jc_checkbox"><input id="isVideo" type="checkbox" ng-change="change('isVideo')"
+                                            ng-model="config.isVideo"><label for="isVideo"></label></div>
+            <label for="isVideo">只显示有小视频</label>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="header">
+        <div id="price" style="position: relative;" ng-click="change('price')">
+            <span>价格</span>
+            <i class="glyphicon glyphicon-triangle-top" ng-class="{'active': config.price === 'lowToHigh'}"></i>
+            <i class="glyphicon glyphicon-triangle-bottom" ng-class="{'active': config.price === 'highToLow'}"></i>
+        </div>
+        <div id="sale" style="position: relative;" ng-click="change('sale')">
+            <span>销量</span>
+            <i class="glyphicon glyphicon-triangle-top" ng-class="{'active': config.sale === 'lowToHigh'}"></i>
+            <i class="glyphicon glyphicon-triangle-bottom" ng-class="{'active': config.sale === 'highToLow'}"></i>
+        </div>
+        <div id="evaluation" style="position: relative;" ng-click="change('evaluation')">
+            <span>评价</span>
+            <i class="glyphicon glyphicon-triangle-top" ng-class="{'active': config.evaluation === 'lowToHigh'}"></i>
+            <i class="glyphicon glyphicon-triangle-bottom" ng-class="{'active': config.evaluation === 'highToLow'}"></i>
+        </div>
+    </div>
+    <div class="dogList">
+        <div class="loading" ng-class="{'loading_show': !config.dogList_show}">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="dogList_span" ng-class="{'dogList_show': config.dogList_show}">
+            <span ng-repeat="x in list" ng-bind-html="x.html | trustHtml"></span>
+        </span>
+
+    </div>
+    <div class="footer">
+        <div id="page" class="ys-page-container" style="position: relative;"></div>
+    </div>
+</div>
+
+<script src="./javascripts/jquery.min.js"></script>
+<script src="./javascripts/angular.min.js"></script>
+<script src="./javascripts/bootstrap.min.js"></script>
+<script src="./javascripts/simple.jquery.page.js"></script>
+<script src="./javascripts/index.js"></script>
+</body>
+</html>
